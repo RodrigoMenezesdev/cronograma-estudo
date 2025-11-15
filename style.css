@@ -1,0 +1,210 @@
+/* Estilos Gerais (Mantidos) */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f6;
+    padding: 20px;
+}
+
+/* Cronômetro (Mantido) */
+#timer-container {
+    text-align: center;
+    margin: 20px auto;
+    padding: 15px;
+    background-color: #34495e;
+    color: white;
+    border-radius: 10px;
+    max-width: 500px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+#timer-display {
+    font-size: 3em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+#timer-controls button {
+    padding: 10px 20px;
+    margin: 0 5px;
+    font-size: 1em;
+    font-weight: bold;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#start-btn { background-color: #2ecc71; color: white; }
+#start-btn:hover { background-color: #27ae60; }
+#pause-btn { background-color: #f39c12; color: white; }
+#pause-btn:hover { background-color: #e67e22; }
+#reset-btn { background-color: #e74c3c; color: white; }
+#reset-btn:hover { background-color: #c0392b; }
+#pause-btn:disabled, #start-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+
+/* Estilos do Cronograma (Mantidos) */
+h1 { text-align: center; color: #333; margin-bottom: 30px; }
+h2 { color: #555; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; text-align: center; }
+
+.container {
+    display: flex;
+    gap: 30px;
+}
+
+.materia-list {
+    flex: 1;
+    min-width: 250px;
+}
+
+.materia {
+    padding: 15px 20px; 
+    margin-bottom: 10px;
+    cursor: grab;
+    border-radius: 25px; 
+    font-weight: bold;
+    color: white;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    transition: transform 0.2s;
+    position: relative;
+    display: flex; 
+    justify-content: space-between;
+}
+
+.materia:hover {
+    transform: scale(1.02);
+}
+
+.materia:active {
+    cursor: grabbing;
+}
+
+/* Cores Diferenciadas das Matérias (Mantidas) */
+.matematica { background-color: #e74c3c; } 
+.portugues { background-color: #3498db; } 
+.historia { background-color: #2ecc71; } 
+.geografia { background-color: #f39c12; } 
+.fisica { background-color: #9b59b6; } 
+.quimica { background-color: #1abc9c; } 
+.biologia { background-color: #f1c40f; } 
+.ingles, .espanhol { background-color: #34495e; } 
+.filosofia, .sociologia { background-color: #c0392b; } 
+.redacao { background-color: #7f8c8d; } 
+.revisao { background-color: #2980b9; } 
+.lazer { background-color: #8e44ad; } 
+
+/* Botão SAIR (Mantido) */
+#btn-sair {
+    background-color: #e74c3c; 
+    color: white;
+    border: none;
+    width: 100%; 
+    padding: 15px; 
+    margin-top: 20px;
+    cursor: pointer;
+    border-radius: 30px; 
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background-color 0.2s, transform 0.1s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+#btn-sair:hover { background-color: #c0392b; transform: translateY(-1px); }
+#btn-sair:active { transform: translateY(0); }
+
+
+/* Estilo da Tabela do Cronograma (Mantidos) */
+.cronograma-table { flex: 3; width: 100%; }
+table { width: 100%; border-collapse: collapse; background-color: white; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
+th, td { border: 1px solid #ddd; padding: 12px; text-align: center; }
+th { background-color: #3498db; color: white; }
+
+
+/* **MODIFICAÇÕES APLICADAS AQUI:** Cores de Fundo e Cor do Texto para os Dias da Semana */
+
+/* Cores de Fundo por Dia da Semana (já existentes) */
+.dia-semana-1 { background-color: #ffeaea; } /* Segunda - Vermelho Suave */
+.dia-semana-2 { background-color: #e9f5ff; } /* Terça - Azul Suave */
+.dia-semana-3 { background-color: #ebfaeb; } /* Quarta - Verde Suave */
+.dia-semana-4 { background-color: #fff8e6; } /* Quinta - Laranja Suave */
+.dia-semana-5 { background-color: #f7eaff; } /* Sexta - Roxo Suave */
+.dia-semana-6 { background-color: #e6ffff; } /* Sábado - Turquesa Suave */
+.dia-semana-7 { background-color: #fffbe0; } /* Domingo - Amarelo Suave */
+
+/* Cores vibrantes para o texto do dia da semana (primeira coluna) */
+.dia-semana-1 td:first-child { color: #e74c3c; font-weight: bold; } /* Vermelho forte */
+.dia-semana-2 td:first-child { color: #3498db; font-weight: bold; } /* Azul forte */
+.dia-semana-3 td:first-child { color: #2ecc71; font-weight: bold; } /* Verde forte */
+.dia-semana-4 td:first-child { color: #f39c12; font-weight: bold; } /* Laranja forte */
+.dia-semana-5 td:first-child { color: #9b59b6; font-weight: bold; } /* Roxo forte */
+.dia-semana-6 td:first-child { color: #1abc9c; font-weight: bold; } /* Turquesa forte */
+.dia-semana-7 td:first-child { color: #f1c40f; font-weight: bold; } /* Amarelo forte */
+
+/* Fim das modificações */
+
+
+.dropzone {
+    height: 100%; 
+    min-height: 130px; 
+    min-width: unset; 
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px; 
+    align-content: flex-start;
+    text-align: left; 
+    padding: 5px;
+}
+
+/* Estilo das matérias dentro da dropzone (Mantido) */
+.dropzone .materia {
+    padding: 10px 15px; 
+    font-size: 1.0em; 
+    margin: 0;
+    cursor: pointer; 
+    border-radius: 20px; 
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    white-space: nowrap; 
+}
+
+/* Estilo do Botão de Excluir 'X' (Mantido) */
+.delete-btn {
+    margin-left: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.2); 
+    border-radius: 50%;
+    padding: 0 5px;
+    line-height: 1;
+    transition: background-color 0.2s;
+    display: none; 
+}
+
+.dropzone .delete-btn { display: block; }
+.delete-btn:hover { background-color: rgba(0, 0, 0, 0.4); }
+
+/* Estilos de Status (Mantidos) */
+.status { font-weight: bold; color: white; padding: 5px 8px; border-radius: 5px; }
+.status-ok { background-color: #27ae60; } 
+.status-alerta { background-color: #f39c12; } 
+.status-erro { background-color: #e74c3c; } 
+
+.alerta { margin-top: 15px; font-style: italic; color: #7f8c8d; }
+
+/* Estilo do Botão de Limpar Cronograma (Mantido) */
+#limpar-cronograma {
+    background-color: #e74c3c; 
+    color: white;
+    border: none;
+    padding: 15px 30px; 
+    margin-top: 25px;
+    cursor: pointer;
+    border-radius: 30px; 
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background-color 0.2s, transform 0.1s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+#limpar-cronograma:hover { background-color: #c0392b; transform: translateY(-1px); }
+#limpar-cronograma:active { transform: translateY(0); }

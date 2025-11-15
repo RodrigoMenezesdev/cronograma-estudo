@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronograma de Estudos Interativo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>📚 Meu cronograma de estudo</h1>
+
+    <div id="timer-container">
+        <div id="timer-display">06:00:00</div>
+        <div id="timer-controls">
+            <button id="start-btn">▶️ Iniciar</button>
+            <button id="pause-btn" disabled>⏸️ Pausar</button>
+            <button id="reset-btn">🔄 Resetar</button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="materia-list">
+            <h2>Matérias do Ensino Médio</h2>
+            <div class="materia matematica" draggable="true" data-materia="Matemática" data-horas="2.0">Matemática (2h)</div>
+            <div class="materia portugues" draggable="true" data-materia="Português" data-horas="2.0">Português (2h)</div>
+            <div class="materia historia" draggable="true" data-materia="História" data-horas="2.0">História (2h)</div>
+            <div class="materia geografia" draggable="true" data-materia="Geografia" data-horas="2.0">Geografia (2h)</div>
+            <div class="materia fisica" draggable="true" data-materia="Física" data-horas="2.0">Física (2h)</div>
+            <div class="materia quimica" draggable="true" data-materia="Química" data-horas="2.0">Química (2h)</div>
+            <div class="materia biologia" draggable="true" data-materia="Biologia" data-horas="2.0">Biologia (2h)</div>
+            <div class="materia ingles" draggable="true" data-materia="Inglês/Espanhol" data-horas="1.0">Inglês/Espanhol (1h)</div>
+            <div class="materia filosofia" draggable="true" data-materia="Filosofia/Sociologia" data-horas="1.0">Filosofia/Sociologia (1h)</div>
+            <div class="materia redacao" draggable="true" data-materia="Redação" data-horas="1.0">Redação (1h)</div>
+            <div class="materia revisao" draggable="true" data-materia="Revisão Geral" data-horas="1.0">Revisão (1h)</div>
+            <div class="materia lazer" draggable="true" data-materia="LAZER/DESCANSO" data-horas="4.0">LAZER (Dia Livre)</div>
+            
+            <button id="btn-sair">Sair</button>
+            
+        </div>
+
+        <div class="cronograma-table">
+            <h2>Seu Planejamento Semanal</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Dia da Semana</th>
+                        <th>Matérias Planejadas</th>
+                        <th>Total de Horas</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="dia-semana-1" data-dia="Segunda">
+                        <td>Segunda-feira</td>
+                        <td class="dropzone"></td>
+                        <td class="horas-total">0.0h</td>
+                        <td class="status"></td>
+                    </tr>
+                    <tr class="dia-semana-2" data-dia="Terca">
+                        <td>Terça-feira</td>
+                        <td class="dropzone"></td>
+                        <td class="horas-total">0.0h</td>
+                        <td class="status"></td>
+                    </tr>
+                    <tr class="dia-semana-3" data-dia="Quarta">
+                        <td>Quarta-feira</td>
+                        <td class="dropzone"></td>
+                        <td class="horas-total">0.0h</td>
+                        <td class="status"></td>
+                    </tr>
+                    <tr class="dia-semana-4" data-dia="Quinta">
+                        <td>Quinta-feira</td>
+                        <td class="dropzone"></td>
+                        <td class="horas-total">0.0h</td>
+                        <td class="status"></td>
+                    </tr>
+                    <tr class="dia-semana-5" data-dia="Sexta">
+                        <td>Sexta-feira</td>
+                        <td class="dropzone"></td>
+                        <td class="horas-total">0.0h</td>
+                        <td class="status"></td>
+                    </tr>
+                    <tr class="dia-semana-6" data-dia="Sabado">
+                        <td>Sábado</td>
+                        <td class="dropzone"></td>
+                        <td class="horas-total">0.0h</td>
+                        <td class="status"></td>
+                    </tr>
+                    <tr class="dia-semana-7" data-dia="Domingo">
+                        <td>Domingo</td>
+                        <td class="dropzone"></td>
+                        <td class="horas-total">0.0h</td>
+                        <td class="status"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="alerta">Dica: Clique no nome/tempo de cada matéria no dia para editar as horas!</p>
+            <button id="limpar-cronograma">🗑️ Limpar Cronograma Completo</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
