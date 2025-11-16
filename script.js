@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- Variáveis Globais ---
+    // A função document.getElementById está sendo usada para garantir que os elementos são encontrados
     const dropzones = document.querySelectorAll('.dropzone');
     const materiasContainer = document.getElementById('materias-container');
     const limparBtn = document.getElementById('limpar-cronograma');
@@ -7,21 +8,28 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Estado do Cronômetro
     let timerInterval;
-    let time = 0; // segundos (tempo decorrido)
+    let time = 0; 
     let isRunning = false;
     const timerDisplay = document.getElementById('timer-display');
     const startBtn = document.getElementById('start-btn');
     const pauseBtn = document.getElementById('pause-btn');
     const resetBtn = document.getElementById('reset-btn');
 
-    // Modal e Edição de Matérias
+    // Modal de Edição de Matérias
     const materiaModal = document.getElementById('materiaModal');
     const addMateriaBtn = document.getElementById('add-materia-btn');
     const closeBtn = document.querySelector('.modal-content .close-btn');
     const addMateriaForm = document.getElementById('add-materia-form');
     const materiaEditor = document.getElementById('materia-editor');
 
-    let customMaterias = []; // Lista de matérias customizadas
+    // NOVO: Modal de Seleção Rápida
+    const quickSelectModal = document.getElementById('quickSelectModal');
+    const closeBtnQuick = document.querySelector('.close-btn-quick');
+    const quickSelectMateriasContainer = document.getElementById('quick-select-materias-container');
+    const quickSelectTitle = document.getElementById('quickSelectTitle');
+    let currentQuickSelectDropzone = null; 
+    
+    let customMaterias = []; 
     let draggedMateria = null;
 
     // Matérias Padrão (Fallback)
@@ -57,7 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
         renderMateriasSidebar();
     }
 
-    // FUNÇÃO PRINCIPAL DE SALVAMENTO
     function saveSchedule() {
         const scheduleData = {};
         dropzones.forEach(dropzone => {
@@ -67,12 +74,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const dayKey = row.dataset.dia;
             scheduleData[dayKey] = [];
             
-            // Itera sobre todas as matérias agendadas e salva seus dados
             dropzone.querySelectorAll('.materia-agendada').forEach(materiaElement => {
                 scheduleData[dayKey].push({
                     materia: materiaElement.dataset.materia,
                     horas: materiaElement.dataset.horas,
-                    cor: materiaElement.dataset.cor || materiaElement.style.backgroundColor 
+                    cor: materiaElement.dataset.cor 
                 });
             });
         });
@@ -93,7 +99,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const dayKey = row.dataset.dia;
             const daySchedule = scheduleData[dayKey];
 
-            dropzone.innerHTML = ''; 
+            dropzone.querySelectorAll('.materia-agendada').forEach(el => {
+                if (!el.classList.contains('add-materia-btn-dia')) {
+                    el.remove();
+                }
+            });
 
             if (daySchedule && daySchedule.length > 0) {
                 daySchedule.forEach(materiaData => {
@@ -109,10 +119,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- FUNÇÕES DE LÓGICA DO CRONOGRAMA ---
 
-    /** Cria o elemento HTML de uma matéria */
     function createMateriaElement(nome, horas, cor, isAgendada = false) {
         const element = document.createElement('div');
-        element.textContent = `${nome} (${horas.toFixed(1)}h)`;
+        element.textContent = `${nome} (${hoursToTime(horas)})`; 
         element.style.backgroundColor = cor;
         element.dataset.materia = nome;
         element.dataset.horas = horas.toFixed(1);
@@ -124,7 +133,6 @@ document.addEventListener('DOMContentLoaded', () => {
             element.addEventListener('dragstart', handleDragStart);
             element.addEventListener('dragend', handleDragEnd);
 
-            // Botão de exclusão 'x'
             const deleteBtn = document.createElement('span');
             deleteBtn.classList.add('delete-btn');
             deleteBtn.textContent = 'x';
@@ -154,7 +162,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /** Atualiza as colunas de Horas Totais e Status para um dia específico */
+    function hoursToTime(hours) {
+        const totalMinutes = Math.round(hours * 60);
+        const h = Math.floor(totalMinutes / 60);
+        const m = totalMinutes % 60;
+        
+        if (m === 0) return `${h}.0h`; 
+        return `${h}h ${m}m`; 
+    }
+
+
     function updateDay(dropzone) {
         const row = dropzone.closest('tr');
         if (!row) return; 
@@ -172,10 +189,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         statusElement.className = 'status'; 
         
-        // Lógica de Status
         if (totalHoras > 6.0) {
             statusElement.classList.add('status-erro');
-            statusElement.textContent = 'EXCEDEU';
+            statusElement.textContent = `EXCEDEU (${totalHoras.toFixed(1)}h)`;
         } else if (totalHoras >= 2.0 && totalHoras <= 6.0) {
             statusElement.classList.add('status-ok');
             statusElement.textContent = `${totalHoras.toFixed(1)}h de estudo`;
@@ -191,7 +207,6 @@ document.addEventListener('DOMContentLoaded', () => {
         dropzones.forEach(updateDay);
     }
 
-    /** Adiciona listener de clique (para edição rápida) */
     function addClickListeners() {
         document.querySelectorAll('.materia-agendada').forEach(materia => {
             materia.removeEventListener('click', handleMateriaClick); 
@@ -199,7 +214,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /** Lógica de Edição Rápida (Clique) */
     function handleMateriaClick(e) {
         if (e.target.classList.contains('delete-btn')) return; 
 
@@ -233,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 
                 materiaElement.dataset.horas = newHours.toFixed(1);
-                materiaElement.firstChild.textContent = `${materiaElement.dataset.materia} (${newHours.toFixed(1)}h)`;
+                materiaElement.firstChild.textContent = `${materiaElement.dataset.materia} (${hoursToTime(newHours)})`; 
             }
 
             updateDay(dropzone);
@@ -242,15 +256,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // --- LÓGICA DRAG AND DROP ---
+    // --- LÓGICA DRAG AND DROP (Mantida) ---
 
     function handleDragStart(e) {
         if (e.target.classList.contains('materia')) {
-            // Cópia da sidebar
             const { materia, horas, cor } = e.target.dataset;
             draggedMateria = createMateriaElement(materia, parseFloat(horas), cor, true);
         } else if (e.target.classList.contains('materia-agendada')) {
-            // Movimento dentro do cronograma
             draggedMateria = e.target;
             draggedMateria.classList.add('is-dragging');
         }
@@ -279,7 +291,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const newMateriaHours = parseFloat(draggedMateria.dataset.horas || 0);
             
-            // Calcula o total de horas APENAS das matérias que JÁ estão no destino
             const materiasDoDia = dropzoneDestino.querySelectorAll('.materia-agendada'); 
             let currentTotalHours = 0;
             materiasDoDia.forEach(materia => {
@@ -290,13 +301,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const potentialTotal = currentTotalHours + newMateriaHours;
             
-            // Bloqueia se exceder o limite, exceto se for um movimento dentro do mesmo dia
             if (potentialTotal > 6.0 && originDropzone !== dropzoneDestino) {
                 alert("Hora Atingida! O limite diário de 6.0 horas de estudo será excedido com esta matéria. Edite uma matéria existente ou remova uma para adicionar.");
                 return; 
             }
             
-            // 1. Trata a origem (se for um movimento de outra célula)
             if (originDropzone && originDropzone !== dropzoneDestino) {
                  if (!draggedMateria.closest('.materia-list')) {
                      draggedMateria.remove();
@@ -304,7 +313,6 @@ document.addEventListener('DOMContentLoaded', () => {
                  }
             }
             
-            // 2. Adiciona ao destino
             dropzoneDestino.appendChild(draggedMateria);
             addClickListeners();
             updateDay(dropzoneDestino);
@@ -313,8 +321,92 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // --- NOVO: LÓGICA DE SELEÇÃO RÁPIDA (Botão +) ---
 
-    // --- FUNÇÕES DO MODAL DE EDIÇÃO ---
+    // 1. Abre o modal e carrega as matérias
+    document.querySelectorAll('.add-materia-btn-dia').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const row = e.target.closest('tr');
+            currentQuickSelectDropzone = row.querySelector('.dropzone');
+            
+            quickSelectTitle.textContent = `Adicionar Matéria para ${row.querySelector('td:first-child').textContent}`;
+            renderQuickSelectMaterias();
+            quickSelectModal.style.display = 'block';
+        });
+    });
+
+    // 2. Renderiza as matérias dentro do novo modal (CORRIGIDA)
+    function renderQuickSelectMaterias() {
+        if (!quickSelectMateriasContainer) {
+            console.error("Elemento 'quick-select-materias-container' não encontrado.");
+            return;
+        }
+
+        quickSelectMateriasContainer.innerHTML = ''; 
+
+        if (customMaterias.length === 0) {
+             quickSelectMateriasContainer.innerHTML = '<p style="text-align:center; color:#e74c3c;">Nenhuma matéria cadastrada. Por favor, adicione matérias primeiro através do botão "Adicionar / Editar Matérias".</p>';
+             return;
+        }
+        
+        customMaterias.forEach(materia => {
+            const item = document.createElement('div');
+            item.classList.add('quick-materia-item');
+            item.textContent = `${materia.nome} (${hoursToTime(materia.horas)})`;
+            item.style.backgroundColor = materia.cor;
+            item.dataset.nome = materia.nome;
+            item.dataset.horas = materia.horas.toFixed(1);
+            item.dataset.cor = materia.cor;
+            
+            item.addEventListener('click', handleQuickSelectAdd);
+            quickSelectMateriasContainer.appendChild(item);
+        });
+    }
+
+    // 3. Adiciona a matéria ao dia
+    function handleQuickSelectAdd(e) {
+        if (!currentQuickSelectDropzone) return;
+
+        const nome = e.target.dataset.nome;
+        const horas = parseFloat(e.target.dataset.horas);
+        const cor = e.target.dataset.cor;
+
+        const materiasDoDia = currentQuickSelectDropzone.querySelectorAll('.materia-agendada');
+        let currentTotalHours = 0;
+        materiasDoDia.forEach(m => currentTotalHours += parseFloat(m.dataset.horas || 0));
+
+        const potentialTotal = currentTotalHours + horas;
+
+        if (potentialTotal > 6.0) {
+            alert(`Limite de 6.0 horas excedido. Total potencial: ${potentialTotal.toFixed(1)}h. Edite uma matéria existente ou remova uma antes de adicionar.`);
+            return;
+        }
+
+        const newMateriaElement = createMateriaElement(nome, horas, cor, true);
+        currentQuickSelectDropzone.appendChild(newMateriaElement);
+
+        addClickListeners();
+        updateDay(currentQuickSelectDropzone);
+        saveSchedule();
+        
+        closeQuickSelectModal();
+    }
+
+    // 4. Fechamento do Modal Rápido
+    function closeQuickSelectModal() {
+        quickSelectModal.style.display = 'none';
+        currentQuickSelectDropzone = null;
+    }
+    
+    // Listeners do Modal Rápido
+    closeBtnQuick.addEventListener('click', closeQuickSelectModal);
+    quickSelectModal.addEventListener('click', (e) => {
+        if (e.target === quickSelectModal) {
+            closeQuickSelectModal();
+        }
+    });
+
+    // --- FUNÇÕES DO MODAL DE EDIÇÃO (Mantidas) ---
 
     function openModal() {
         materiaModal.style.display = 'block';
@@ -357,7 +449,7 @@ document.addEventListener('DOMContentLoaded', () => {
             item.classList.add('edit-list-item');
             item.style.borderLeft = `5px solid ${m.cor}`;
             item.innerHTML = `
-                <span>${m.nome} (${m.horas.toFixed(1)}h)</span>
+                <span>${m.nome} (${hoursToTime(m.horas)})</span>
                 <button data-materia="${m.nome}">Excluir</button>
             `;
             
@@ -386,7 +478,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // --- FUNÇÕES DO CRONÔMETRO (Mantidas Simples) ---
+    // --- FUNÇÕES DO CRONÔMETRO (Mantidas) ---
     function formatTime(totalSeconds) {
         const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
         const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
@@ -430,7 +522,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         dropzones.forEach(dropzone => {
-            dropzone.innerHTML = '';
+             dropzone.querySelectorAll('.materia-agendada').forEach(el => el.remove());
         });
         localStorage.removeItem('studySchedule');
         updateAllDays(); 
@@ -448,23 +540,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Listeners da Aplicação
     limparBtn.addEventListener('click', clearSchedule);
     
-    // Listener do Botão Salvar E SAIR (AGORA TENTA FECHAR A PÁGINA)
     sairBtn.addEventListener('click', () => {
-        saveSchedule(); // Salva o cronograma
-        
+        saveSchedule(); 
         alert('Cronograma salvo com sucesso!');
-        
-        // Tenta fechar a janela ou redireciona para simular "sair"
         try {
-            // Tenta fechar a janela (só funciona se a janela foi aberta via JS)
             window.close();
         } catch (e) {
-            // Redireciona para uma página em branco (simula o fechamento)
             window.location.href = 'about:blank'; 
         }
     });
 
-    // Listeners do Modal
+    // Listeners do Modal de Edição
     addMateriaBtn.addEventListener('click', openModal);
     closeBtn.addEventListener('click', closeModal);
     window.addEventListener('click', (e) => {
@@ -472,9 +558,8 @@ document.addEventListener('DOMContentLoaded', () => {
             closeModal();
         }
     });
-
+    
     // Inicialização da Aplicação
     loadCustomMaterias();
     loadSchedule(); 
 });
-                    
