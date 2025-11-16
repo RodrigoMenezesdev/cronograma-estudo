@@ -1,10 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- Variáveis Globais ---
-    // A função document.getElementById está sendo usada para garantir que os elementos são encontrados
     const dropzones = document.querySelectorAll('.dropzone');
     const materiasContainer = document.getElementById('materias-container');
     const limparBtn = document.getElementById('limpar-cronograma');
-    const sairBtn = document.getElementById('btn-sair');
+    const sairBtn = document.getElementById('btn-sair'); 
     
     // Estado do Cronômetro
     let timerInterval;
@@ -22,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const addMateriaForm = document.getElementById('add-materia-form');
     const materiaEditor = document.getElementById('materia-editor');
 
-    // NOVO: Modal de Seleção Rápida
+    // Modal de Seleção Rápida
     const quickSelectModal = document.getElementById('quickSelectModal');
     const closeBtnQuick = document.querySelector('.close-btn-quick');
     const quickSelectMateriasContainer = document.getElementById('quick-select-materias-container');
@@ -164,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function hoursToTime(hours) {
         const totalMinutes = Math.round(hours * 60);
-        const h = Math.floor(totalMinutes / 60);
+        const h = Math.floor(totalMinutes / 3600);
         const m = totalMinutes % 60;
         
         if (m === 0) return `${h}.0h`; 
@@ -256,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // --- LÓGICA DRAG AND DROP (Mantida) ---
+    // --- LÓGICA DRAG AND DROP ---
 
     function handleDragStart(e) {
         if (e.target.classList.contains('materia')) {
@@ -321,7 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- NOVO: LÓGICA DE SELEÇÃO RÁPIDA (Botão +) ---
+    // --- LÓGICA DE SELEÇÃO RÁPIDA (Botão +) ---
 
     // 1. Abre o modal e carrega as matérias
     document.querySelectorAll('.add-materia-btn-dia').forEach(button => {
@@ -335,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 2. Renderiza as matérias dentro do novo modal (CORRIGIDA)
+    // 2. Renderiza as matérias dentro do novo modal
     function renderQuickSelectMaterias() {
         if (!quickSelectMateriasContainer) {
             console.error("Elemento 'quick-select-materias-container' não encontrado.");
@@ -406,7 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- FUNÇÕES DO MODAL DE EDIÇÃO (Mantidas) ---
+    // --- FUNÇÕES DO MODAL DE EDIÇÃO ---
 
     function openModal() {
         materiaModal.style.display = 'block';
@@ -478,7 +477,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // --- FUNÇÕES DO CRONÔMETRO (Mantidas) ---
+    // --- FUNÇÕES DO CRONÔMETRO ---
     function formatTime(totalSeconds) {
         const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
         const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
@@ -540,15 +539,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Listeners da Aplicação
     limparBtn.addEventListener('click', clearSchedule);
     
-    sairBtn.addEventListener('click', () => {
-        saveSchedule(); 
-        alert('Cronograma salvo com sucesso!');
-        try {
-            window.close();
-        } catch (e) {
-            window.location.href = 'about:blank'; 
-        }
-    });
+    // ** CORREÇÃO FINAL: Apenas salva e informa o usuário sobre o fechamento manual **
+    if (sairBtn) {
+        sairBtn.addEventListener('click', () => {
+            saveSchedule(); 
+            // Mensagem clara pedindo para fechar manualmente
+            alert('Cronograma salvo com sucesso! Por favor, feche a janela ou aba manualmente.'); 
+        });
+    } else {
+        console.error("Erro: O botão 'Salvar e Sair' com ID 'btn-sair' não foi encontrado na inicialização.");
+    }
 
     // Listeners do Modal de Edição
     addMateriaBtn.addEventListener('click', openModal);
