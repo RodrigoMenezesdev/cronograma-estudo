@@ -1,22 +1,20 @@
-/* --- INÍCIO DO CÓDIGO CSS COMPLETO --- */
+/* --- INÍCIO DO CÓDIGO CSS COMPLETO E CORRIGIDO --- */
 
-/* Paleta de Cores (Diferenciação por dia) */
+/* Paleta de Cores */
 :root {
-  /* Cores de Produtividade (Segunda a Sexta) - Novas Cores Diferenciadas */
-  --cor-segunda: #4da6ff; /* Azul Médio */
-  --cor-terca: #66b2b2;  /* Verde-Azulado */
-  --cor-quarta: #79a6d2; /* Azul Pastel */
-  --cor-quinta: #8ecf8e; /* Verde Claro */
-  --cor-sexta: #a6b2c8;  /* Azul Acinzentado */
-
-  /* Cores de Descanso (Fim de Semana) */
-  --cor-sabado: #ffaa7a; /* Laranja Salmão */
-  --cor-domingo: #c39bd3; /* Roxo Claro */
-
-  /* Cor de Destaque (Dia Atual / Hover) */
-  --cor-destaque: #f0ad4e; /* Laranja Vibrante */
+  --cor-segunda: #ff7f7f;
+  --cor-terca: #7fc8ff;
+  --cor-quarta: #96ff7f;
+  --cor-quinta: #ffb87f;
+  --cor-sexta: #ff7fe2;
+  --cor-sabado: #e27fff;
+  --cor-domingo: #7ffffb;
+  --cor-destaque: #f0ad4e;
+  --cor-texto-status-ok: #2ecc71;
+  --cor-borda-tabela: #2980b9; /* NOVA COR DE BORDA */
 }
 
+/* * ESTILOS GERAIS */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;
@@ -31,6 +29,7 @@ h1 {
     margin-top: 20px;
 }
 
+/* --- CONTAINER (Desktop View) --- */
 .container {
     display: flex;
     max-width: 1200px;
@@ -50,50 +49,18 @@ h1 {
     max-width: 400px;
 }
 
-#timer-container h2 {
-    color: #ffffff;
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 1.2em;
-    font-weight: 600;
-}
-
-#timer-display {
-    font-size: 2.5em;
-    font-weight: bold;
-    color: #1abc9c;
-    margin-bottom: 15px;
-}
-
-#timer-controls button {
-    padding: 10px 15px;
-    margin: 5px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.2s;
-}
-
-#start-btn {
-    background-color: #2ecc71;
-    color: white;
-}
-
-#pause-btn {
-    background-color: #f39c12;
-    color: white;
-}
-
-#reset-btn {
-    background-color: #e74c3c;
-    color: white;
-}
+/* (Estilos internos do Cronômetro) */
+#timer-container h2 { color: #ffffff; margin-top: 0; margin-bottom: 10px; font-size: 1.2em; font-weight: 600; }
+#timer-display { font-size: 2.5em; font-weight: bold; color: #1abc9c; margin-bottom: 15px; }
+#timer-controls button { padding: 10px 15px; margin: 5px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: background-color 0.2s; }
+#start-btn { background-color: #2ecc71; color: white; }
+#pause-btn { background-color: #f39c12; color: white; }
+#reset-btn { background-color: #e74c3c; color: white; }
 
 /* --- COLUNAS LATERAIS E CRONOGRAMA --- */
-
 .materia-list {
     flex: 1;
+    min-width: 250px; 
     padding: 15px;
     background-color: #fff;
     border-radius: 8px;
@@ -102,11 +69,11 @@ h1 {
 
 .cronograma-table {
     flex: 3;
-    overflow-x: auto;
+    overflow-x: auto; 
+    padding-bottom: 15px; 
 }
 
 /* --- ESTILO DAS MATÉRIAS (SIDEBAR) --- */
-
 .materia {
     padding: 10px 15px;
     margin: 8px 0;
@@ -125,10 +92,7 @@ h1 {
 }
 
 /* --- BOTÕES LATERAIS --- */
-
-#add-materia-btn, 
-#limpar-cronograma,
-#btn-sair {
+#add-materia-btn, #limpar-cronograma, #btn-sair {
     width: 100%;
     padding: 10px;
     margin-top: 15px;
@@ -139,25 +103,14 @@ h1 {
     transition: background-color 0.2s;
 }
 
-#add-materia-btn {
-    background-color: #3498db;
-    color: white;
-}
-
-#limpar-cronograma {
-    background-color: #e74c3c;
-    color: white;
-}
-
-#btn-sair {
-    background-color: #7f8c8d;
-    color: white;
-}
+#add-materia-btn { background-color: #3498db; color: white; }
+#limpar-cronograma { background-color: #e74c3c; color: white; }
+#btn-sair { background-color: #7f8c8d; color: white; }
 
 /* --- TABELA DO CRONOGRAMA --- */
-
 .cronograma-table table {
     width: 100%;
+    min-width: 600px; 
     border-collapse: collapse;
     background-color: #fff;
     border-radius: 8px;
@@ -166,22 +119,22 @@ h1 {
 }
 
 .cronograma-table th, .cronograma-table td {
-    padding: 12px 15px;
+    padding: 12px 10px; 
     text-align: center;
-    border: 1px solid #ddd;
+    /* LINHA DIVISÓRIA CORRIGIDA: Usa a variável de cor */
+    border: 1px solid var(--cor-borda-tabela); 
     vertical-align: top;
+    white-space: normal; 
 }
 
 .cronograma-table th {
     background-color: #3498db;
     color: white;
     font-weight: bold;
-    white-space: nowrap;
+    white-space: nowrap; 
 }
 
-/* --- ESTILOS DE COR E INTERATIVIDADE PARA O DIA DA SEMANA --- */
-
-/* Aplicação das Cores Diferenciadas em Cada Dia (Alvo: 1ª célula de cada linha da tabela) */
+/* * DIFERENCIAÇÃO DE CORES * */
 .cronograma-table tbody tr:nth-child(1) td:first-child { background-color: var(--cor-segunda); }
 .cronograma-table tbody tr:nth-child(2) td:first-child { background-color: var(--cor-terca); }
 .cronograma-table tbody tr:nth-child(3) td:first-child { background-color: var(--cor-quarta); }
@@ -190,238 +143,121 @@ h1 {
 .cronograma-table tbody tr:nth-child(6) td:first-child { background-color: var(--cor-sabado); }
 .cronograma-table tbody tr:nth-child(7) td:first-child { background-color: var(--cor-domingo); }
 
-
-/* Estilo para a Coluna do Dia */
 .cronograma-table tbody td:first-child {
     font-weight: bold;
-    color: #1a1a1a; /* Cor de texto ajustada para melhor contraste */
+    color: #2c3e50; 
     width: 15%; 
-    min-width: 100px;
-    transition: background-color 0.3s ease, color 0.3s ease; /* Adicionando transição */
+    min-width: 90px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Cores Alternadas para as outras colunas (mantendo o estilo original que não era a 1ª célula) */
-.dia-semana-1 td:not(:first-child), .dia-semana-4 td:not(:first-child) { background-color: #fce4ec; } 
-.dia-semana-2 td:not(:first-child), .dia-semana-5 td:not(:first-child) { background-color: #e3f2fd; } 
-.dia-semana-3 td:not(:first-child), .dia-semana-6 td:not(:first-child) { background-color: #e8f5e9; } 
-.dia-semana-7 td:not(:first-child) { background-color: #fffde7; }
+.cronograma-table tbody tr:nth-child(odd) td:not(:first-child) { background-color: #fdfdfd; }
+.cronograma-table tbody tr:nth-child(even) td:not(:first-child) { background-color: #f7f7f7; }
 
-
-/* Efeito de Interatividade (Hover) */
-.cronograma-table tr:hover td {
-    background-color: #f7f7f7 !important;
-    cursor: pointer;
-}
-
-.cronograma-table tr:hover td:first-child {
-    background-color: var(--cor-destaque) !important;
-    color: white !important; 
-}
-
-/* Destaque do Dia Atual (Requer JavaScript para adicionar a classe 'dia-atual') */
-.dia-atual td {
-    border-left: 5px solid var(--cor-destaque);
-    background-color: #fff9e6 !important;
-}
-
-.dia-atual td:first-child {
-    background-color: var(--cor-destaque) !important;
-    color: white !important;
-}
-
-/* --- FIM DOS ESTILOS DE COR E INTERATIVIDADE --- */
-
+.cronograma-table tr:hover td { background-color: #eef !important; cursor: pointer; }
+.cronograma-table tr:hover td:first-child { background-color: var(--cor-destaque) !important; color: white !important; }
+.dia-atual td { border-left: 5px solid var(--cor-destaque); background-color: #fff8e1 !important; }
+.dia-atual td:first-child { background-color: var(--cor-destaque) !important; color: white !important; }
+/* * FIM DA DIFERENCIAÇÃO DE CORES * */
 
 /* --- DROPZONE E MATÉRIAS AGENDADAS --- */
-
+/* Mantido o CSS ajustado para o botão '+' no canto inferior */
 .dropzone {
     min-height: 80px;
-    padding: 5px;
+    padding: 5px; 
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
     align-content: flex-start;
+    position: relative; 
 }
 
-.materia-agendada {
-    padding: 5px 10px;
-    margin: 3px 0;
-    border-radius: 15px;
+.materia-agendada { padding: 5px 10px; margin: 3px 0; border-radius: 15px; color: white; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); transition: opacity 0.2s; }
+.materia-agendada:hover { opacity: 0.8; }
+.materia-agendada.is-dragging { opacity: 0.3; }
+.delete-btn { background: rgba(0, 0, 0, 0.3); color: white; border-radius: 50%; width: 15px; height: 15px; line-height: 15px; text-align: center; font-size: 0.8em; cursor: pointer; font-weight: bolder; }
+
+/* Posicionamento do botão '+' no canto INFERIOR DIREITO */
+.add-materia-btn-dia {
+    background-color: #3498db; 
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+    line-height: 28px;
+    text-align: center;
+    cursor: pointer;
+    margin: 5px;
+    position: absolute; 
+    top: auto; 
+    right: 5px;
+    bottom: 5px; 
+    z-index: 5; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.add-materia-btn-dia:hover {
+    background-color: #2980b9;
+    transform: scale(1.05);
+}
+
+/* Estilo para as matérias no novo modal de seleção rápida */
+.quick-materia-item {
+    padding: 10px 15px;
+    margin: 8px 0;
+    border-radius: 25px;
     color: white;
     font-weight: bold;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-    transition: opacity 0.2s;
-}
-
-.materia-agendada:hover {
-    opacity: 0.8;
-}
-
-.materia-agendada.is-dragging {
-    opacity: 0.3;
-}
-
-.delete-btn {
-    background: rgba(0, 0, 0, 0.3);
-    color: white;
-    border-radius: 50%;
-    width: 15px;
-    height: 15px;
-    line-height: 15px;
     text-align: center;
-    font-size: 0.8em;
     cursor: pointer;
-    font-weight: bolder;
+    transition: opacity 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
+
+.quick-materia-item:hover {
+    opacity: 0.9;
+}
+
 
 /* --- COLUNA TOTAL E STATUS --- */
+.horas-total { font-weight: bold; width: 10%; min-width: 50px; }
+.status { font-weight: bold; width: 15%; min-width: 70px; color: black; } 
 
-.horas-total {
-    font-weight: bold;
-    width: 10%;
-    min-width: 50px;
-}
-
-.status {
-    font-weight: bold;
-    width: 15%;
-    min-width: 70px;
-    color: white;
-}
-
-.status-ok {
-    background-color: #2ecc71;
-}
-
-.status-alerta {
-    background-color: #f1c40f;
-}
-
-.status-erro {
-    background-color: #e74c3c;
-}
+.status-ok { color: var(--cor-texto-status-ok) !important; }
+.status-alerta { color: #f1c40f !important; }
+.status-erro { color: #e74c3c !important; }
 
 .alerta {
-    text-align: center;
-    margin-top: 15px;
-    font-style: italic;
-    color: #7f8c8d;
-    font-size: 0.9em;
+    text-align: center; margin-top: 15px; font-style: italic;
+    color: #7f8c8d; font-size: 0.9em;
 }
 
+/* --- MODAL --- */
+.modal { display: none; position: fixed; z-index: 10; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4); }
+.modal-content { background-color: #fefefe; margin: 10% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 500px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+.close-btn, .close-btn-quick { color: #aaa; float: right; font-size: 28px; font-weight: bold; }
+.close-btn:hover, .close-btn:focus, .close-btn-quick:hover, .close-btn-quick:focus { color: #000; text-decoration: none; cursor: pointer; }
 
-/* --- MODAL PARA ADICIONAR/EDITAR MATÉRIAS --- */
+#add-materia-form input[type="text"], #add-materia-form input[type="number"] { width: calc(100% - 10px); padding: 10px; margin: 8px 0; box-sizing: border-box; border: 1px solid #ccc; border-radius: 5px; }
+#add-materia-form input[type="color"] { height: 35px; width: 100%; padding: 0; margin: 8px 0; box-sizing: border-box; border: none; }
+#add-materia-form button { background-color: #2ecc71; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 10px; }
 
-.modal {
-    display: none; 
-    position: fixed; 
-    z-index: 10; 
-    left: 0;
-    top: 0;
-    width: 100%; 
-    height: 100%; 
-    overflow: auto; 
-    background-color: rgba(0,0,0,0.4); 
-}
+.edit-list-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; margin-bottom: 8px; background-color: #f9f9f9; border-left: 5px solid #3498db; }
+.edit-list-item button { background-color: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8em; }
 
-.modal-content {
-    background-color: #fefefe;
-    margin: 10% auto; 
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; 
-    max-width: 500px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-}
-
-.close-btn {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close-btn:hover,
-.close-btn:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-#add-materia-form input[type="text"],
-#add-materia-form input[type="number"] {
-    width: calc(100% - 10px);
-    padding: 10px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-#add-materia-form input[type="color"] {
-    height: 35px;
-    width: 100%;
-    padding: 0;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: none;
-}
-
-#add-materia-form button {
-    background-color: #2ecc71;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 10px;
-}
-
-/* Estilo para a lista de edição de matérias */
-.edit-list-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    margin-bottom: 8px;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    border-left: 5px solid #3498db;
-}
-
-.edit-list-item button {
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.8em;
-}
-
-/* --- MEDIA QUERIES (Responsividade) --- */
-
+/* --- 📱 MEDIA QUERIES PARA CELULAR (até 768px) --- */
 @media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-    }
-    
-    .materia-list {
-        flex: none;
-        width: 100%;
-    }
-    
-    .cronograma-table {
-        flex: none;
-        width: 100%;
-    }
+    .container { flex-direction: column; gap: 15px; padding: 0 10px; }
+    #timer-container { margin: 10px auto 10px auto; width: 100%; max-width: unset; }
+    .materia-list { order: 2; width: 100%; min-width: unset; }
+    .cronograma-table { order: 1; width: 100%; padding-bottom: 15px; }
+    .cronograma-table table { min-width: 600px; }
+    .cronograma-table th, .cronograma-table td { padding: 8px 5px; font-size: 0.9em; }
+    .alerta { display: none; }
 }
 
-/* --- FIM DO CÓDIGO CSS COMPLETO --- */
-    
+/* --- FIM DO CÓDIGO CSS COMPLETO E CORRIGIDO --- */
+  
