@@ -120,7 +120,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function createMateriaElement(nome, horas, cor, isAgendada = false) {
         const element = document.createElement('div');
-        element.textContent = `${nome} (${hoursToTime(horas)})`; 
+        
+        // CORREÇÃO 1: Garante que as horas sejam exibidas no formato X.Xh
+        const horasFormatadas = horas.toFixed(1) + 'h'; 
+        element.textContent = `${nome} (${horasFormatadas})`; 
+        
         element.style.backgroundColor = cor;
         element.dataset.materia = nome;
         element.dataset.horas = horas.toFixed(1);
@@ -161,11 +165,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Função auxiliar que só é usada para o cronômetro, não nas matérias agendadas
     function hoursToTime(hours) {
         const totalMinutes = Math.round(hours * 60);
         const h = Math.floor(totalMinutes / 3600);
         const m = totalMinutes % 60;
         
+        // Esta função está correta, mas não deve ser usada para formatar o texto da matéria agendada.
         if (m === 0) return `${h}.0h`; 
         return `${h}h ${m}m`; 
     }
@@ -246,7 +252,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 
                 materiaElement.dataset.horas = newHours.toFixed(1);
-                materiaElement.firstChild.textContent = `${materiaElement.dataset.materia} (${hoursToTime(newHours)})`; 
+                // CORREÇÃO 2: Garante que o texto seja atualizado no formato X.Xh após a edição.
+                // Atualiza o texto do elemento principal (materia-agendada), mas primeiro acessa o nó de texto para não apagar o botão 'x'
+                
+                // Opção 1 (mais robusta no seu caso): Reconstruir o texto e manter o botão 'x'
+                const deleteBtn = materiaElement.querySelector('.delete-btn');
+                materiaElement.textContent = `${materiaElement.dataset.materia} (${newHours.toFixed(1)}h)`;
+                if (deleteBtn) {
+                    materiaElement.appendChild(deleteBtn);
+                }
             }
 
             updateDay(dropzone);
@@ -351,7 +365,11 @@ document.addEventListener('DOMContentLoaded', () => {
         customMaterias.forEach(materia => {
             const item = document.createElement('div');
             item.classList.add('quick-materia-item');
-            item.textContent = `${materia.nome} (${hoursToTime(materia.horas)})`;
+            
+            // CORREÇÃO 3: Garante que o texto no modal rápido seja exibido no formato X.Xh
+            const horasPadraoFormatadas = materia.horas.toFixed(1) + 'h';
+            item.textContent = `${materia.nome} (${horasPadraoFormatadas})`;
+            
             item.style.backgroundColor = materia.cor;
             item.dataset.nome = materia.nome;
             item.dataset.horas = materia.horas.toFixed(1);
@@ -448,7 +466,7 @@ document.addEventListener('DOMContentLoaded', () => {
             item.classList.add('edit-list-item');
             item.style.borderLeft = `5px solid ${m.cor}`;
             item.innerHTML = `
-                <span>${m.nome} (${hoursToTime(m.horas)})</span>
+                <span>${m.nome} (${m.horas.toFixed(1)}h)</span>
                 <button data-materia="${m.nome}">Excluir</button>
             `;
             
