@@ -8,34 +8,28 @@
 </head>
 <body>
 
-    <h1>📚 Meu cronograma de estudo</h1>
-
     <div id="timer-container">
-        <div id="timer-display">06:00:00</div>
+        <h2>Cronômetro de Produtividade</h2>
+        <div id="timer-display">00:00:00</div>
         <div id="timer-controls">
-            <button id="start-btn">▶️ Iniciar</button>
-            <button id="pause-btn" disabled>⏸️ Pausar</button>
-            <button id="reset-btn">🔄 Resetar</button>
+            <button id="start-btn">Iniciar</button>
+            <button id="pause-btn" disabled>Pausar</button>
+            <button id="reset-btn">Zerar</button>
         </div>
     </div>
+    
+    <h1>📚 Meu Cronograma de Estudos</h1>
+
     <div class="container">
         <div class="materia-list">
-            <h2>Matérias do Ensino Médio</h2>
-            <div class="materia matematica" draggable="true" data-materia="Matemática" data-horas="2.0">Matemática (2h)</div>
-            <div class="materia portugues" draggable="true" data-materia="Português" data-horas="2.0">Português (2h)</div>
-            <div class="materia historia" draggable="true" data-materia="História" data-horas="2.0">História (2h)</div>
-            <div class="materia geografia" draggable="true" data-materia="Geografia" data-horas="2.0">Geografia (2h)</div>
-            <div class="materia fisica" draggable="true" data-materia="Física" data-horas="2.0">Física (2h)</div>
-            <div class="materia quimica" draggable="true" data-materia="Química" data-horas="2.0">Química (2h)</div>
-            <div class="materia biologia" draggable="true" data-materia="Biologia" data-horas="2.0">Biologia (2h)</div>
-            <div class="materia ingles" draggable="true" data-materia="Inglês/Espanhol" data-horas="1.0">Inglês/Espanhol (1h)</div>
-            <div class="materia filosofia" draggable="true" data-materia="Filosofia/Sociologia" data-horas="1.0">Filosofia/Sociologia (1h)</div>
-            <div class="materia redacao" draggable="true" data-materia="Redação" data-horas="1.0">Redação (1h)</div>
-            <div class="materia revisao" draggable="true" data-materia="Revisão Geral" data-horas="1.0">Revisão (1h)</div>
-            <div class="materia lazer" draggable="true" data-materia="LAZER/DESCANSO" data-horas="4.0">LAZER (Dia Livre)</div>
+            <h2>Matérias Disponíveis</h2>
             
-            <button id="btn-sair">Sair</button>
+            <div id="materias-container">
+                </div>
             
+            <button id="add-materia-btn">➕ Adicionar/Editar Matérias</button>
+            <button id="limpar-cronograma">🗑️ Limpar Cronograma Completo</button>
+            <button id="btn-sair">Sair (Salvar)</button>
         </div>
 
         <div class="cronograma-table">
@@ -50,43 +44,43 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="dia-semana-1" data-dia="Segunda">
+                    <tr data-dia="Segunda" class="dia-semana-1">
                         <td>Segunda-feira</td>
                         <td class="dropzone"></td>
                         <td class="horas-total">0.0h</td>
                         <td class="status"></td>
                     </tr>
-                    <tr class="dia-semana-2" data-dia="Terca">
+                    <tr data-dia="Terca" class="dia-semana-2">
                         <td>Terça-feira</td>
                         <td class="dropzone"></td>
                         <td class="horas-total">0.0h</td>
                         <td class="status"></td>
                     </tr>
-                    <tr class="dia-semana-3" data-dia="Quarta">
+                    <tr data-dia="Quarta" class="dia-semana-3">
                         <td>Quarta-feira</td>
                         <td class="dropzone"></td>
                         <td class="horas-total">0.0h</td>
                         <td class="status"></td>
                     </tr>
-                    <tr class="dia-semana-4" data-dia="Quinta">
+                    <tr data-dia="Quinta" class="dia-semana-4">
                         <td>Quinta-feira</td>
                         <td class="dropzone"></td>
                         <td class="horas-total">0.0h</td>
                         <td class="status"></td>
                     </tr>
-                    <tr class="dia-semana-5" data-dia="Sexta">
+                    <tr data-dia="Sexta" class="dia-semana-5">
                         <td>Sexta-feira</td>
                         <td class="dropzone"></td>
                         <td class="horas-total">0.0h</td>
                         <td class="status"></td>
                     </tr>
-                    <tr class="dia-semana-6" data-dia="Sabado">
+                    <tr data-dia="Sabado" class="dia-semana-6">
                         <td>Sábado</td>
                         <td class="dropzone"></td>
                         <td class="horas-total">0.0h</td>
                         <td class="status"></td>
                     </tr>
-                    <tr class="dia-semana-7" data-dia="Domingo">
+                    <tr data-dia="Domingo" class="dia-semana-7">
                         <td>Domingo</td>
                         <td class="dropzone"></td>
                         <td class="horas-total">0.0h</td>
@@ -94,8 +88,28 @@
                     </tr>
                 </tbody>
             </table>
-            <p class="alerta">Dica: Clique no nome/tempo de cada matéria no dia para editar as horas!</p>
-            <button id="limpar-cronograma">🗑️ Limpar Cronograma Completo</button>
+             <p class="alerta">Dica: Clique na matéria dentro da tabela para remover ou editar o tempo. Arraste para agendar!</p>
+        </div>
+    </div>
+    
+    <div id="materiaModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3>Gerenciar Matérias de Estudo</h3>
+            
+            <h4>Adicionar Nova Matéria</h4>
+            <form id="add-materia-form">
+                <input type="text" id="materia-nome" placeholder="Nome da Matéria (Ex: Estatística)" required>
+                <input type="number" id="materia-horas" step="0.5" min="0.5" max="4.0" placeholder="Horas Padrão (Ex: 2.0)" required>
+                <input type="color" id="materia-cor" value="#3498db" title="Cor da Matéria" required>
+                <button type="submit">Salvar Nova Matéria</button>
+            </form>
+
+            <hr style="margin: 20px 0;">
+
+            <h4>Editar/Excluir Matérias Existentes</h4>
+            <div id="materia-editor">
+                </div>
         </div>
     </div>
 
